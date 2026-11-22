@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Adam — Marketing que encaja</title>
+  <meta name="description" content="Portfolio de marketing: estrategia, marca, contenido, ads y resultados, pieza a pieza." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+  <canvas id="scene" aria-hidden="true"></canvas>
+
+  <header class="top">
+    <span class="brand">ADAM</span>
+    <a class="top-link" href="#contacto">Contacto</a>
+  </header>
+
+  <div class="hero" id="hero">
+    <p class="kicker">Portfolio · Marketing</p>
+    <h1>Marketing<br />que encaja.</h1>
+    <p class="lead">Siete piezas, un sistema. Haz scroll y mira cómo se monta.</p>
+    <span class="hint" aria-hidden="true">Scroll ↓</span>
+  </div>
+
+  <!-- Text shown inside the piece that is in focus; filled from src/content.js. -->
+  <article class="info" id="info" aria-live="polite">
+    <p class="info-count" id="info-count"></p>
+    <p class="info-q" id="info-q"></p>
+    <h2 class="info-word" id="info-word"></h2>
+    <p class="info-text" id="info-text"></p>
+    <ul class="info-tags" id="info-tags"></ul>
+  </article>
+
+  <div class="final" id="final">
+    <p class="kicker">Y sigue</p>
+    <h2>Siempre hay una pieza más.</h2>
+    <p class="lead">Cuéntame qué le falta a tu marca y vemos dónde encaja.</p>
+    <a class="cta" href="mailto:hola@tudominio.com">Hablemos</a>
+    <span class="hint" aria-hidden="true">Y la prueba ↓</span>
+  </div>
+
+  <!-- Gives the page its scroll length; the scene is driven by how far it has been scrolled. -->
+  <div id="track"></div>
+
+  <!-- Scrolls over the finished puzzle: proof in few words. Filled from src/content.js by src/more.js. -->
+  <section class="more" aria-label="Proyectos, cifras y herramientas">
+    <div class="block">
+      <p class="kicker">La prueba</p>
+      <h2>¿Lo has hecho ya?</h2>
+      <div class="cards" id="projects"></div>
+      <ul class="chips also" id="also" aria-label="También"></ul>
+    </div>
+    <div class="block">
+      <p class="kicker">En cifras</p>
+      <h2>¿Por qué yo?</h2>
+      <ul class="stats" id="stats"></ul>
+    </div>
+    <div class="block">
+      <p class="kicker">Herramientas</p>
+      <h2>¿Con qué trabajo?</h2>
+      <div class="tools" id="tools"></div>
+    </div>
+    <div class="block end" id="contacto">
+      <p class="kicker">Siguiente pieza</p>
+      <h2>¿Hablamos?</h2>
+      <p class="lead">Cuéntame qué le falta a tu marca y vemos dónde encaja.</p>
+      <a class="cta" href="mailto:hola@tudominio.com">Escríbeme</a>
+    </div>
+  </section>
+
+  <script type="module" src="/src/main.js"></script>
+  <script type="module" src="/src/more.js"></script>
+</body>
+</html>

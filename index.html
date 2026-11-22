@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Adam — Portfolio</title>
+  <meta name="description" content="Estudiante de Marketing y Publicidad. Busco prácticas para seguir aprendiendo y enseño aquí los proyectos que voy construyendo." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <link rel="stylesheet" href="/src/book.css" />
+</head>
+<body>
+  <header class="top">
+    <span class="brand" id="brand"></span>
+    <select class="lang" id="lang"></select>
+    <a class="top-link" href="#contacto" id="to-contact">Contacto</a>
+  </header>
+
+  <!-- Fixed stage: the book floats here and its pages turn with the scroll. Filled from src/book-content.js. -->
+  <main class="stage" id="stage">
+    <div class="hero" id="hero">
+      <!-- The headline is kept for screen readers and search engines only: on screen the book speaks for itself. -->
+      <h1 class="sr-only" id="hero-title"></h1>
+      <span class="hint" id="hint" aria-hidden="true">Scroll para abrir ↓</span>
+    </div>
+    <div class="wrap" id="wrap">
+      <div class="floaty">
+        <div class="book" id="book"></div>
+        <div class="ground" aria-hidden="true"></div>
+      </div>
+    </div>
+    <nav class="chapters" id="chapters" aria-label="Capítulos"></nav>
+  </main>
+
+  <!-- Gives the page its scroll length. -->
+  <div id="track"></div>
+
+  <script type="module" src="/src/book.js"></script>
+</body>
+</html>

@@ -1,0 +1,270 @@
+:root { --bg: #0b0605; --ink: #2b1614; --wine: #7a1626; --leather: #5a1220; --leather-dark: #36090f; --gold: #d2b06a; --paper: #f6f0e2; --cream: #f4ead6;
+  --brass: linear-gradient(135deg, #f3e3ad, #b8924a 42%, #ecd795 58%, #8f6c2f); --green: #2fe08a;
+  /* Two faces: Black Chancery for titles (primary), Anime Ace for everything else (secondary). */
+  --display: 'Black Chancery', serif; --font: 'Anime Ace', 'Archivo', system-ui, sans-serif; }
+/* Black Chancery is freely distributable (public/fonts/black-chancery.txt). Anime Ace is Blambot freeware with
+   conditions on commercial use and redistribution: its terms travel with it in public/fonts/anime-ace.txt. */
+@font-face { font-family: 'Anime Ace'; src: url('/fonts/anime-ace.ttf') format('truetype'); font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Anime Ace'; src: url('/fonts/anime-ace-bold.ttf') format('truetype'); font-weight: 600 900; font-display: swap; }
+@font-face { font-family: 'Anime Ace'; src: url('/fonts/anime-ace-italic.ttf') format('truetype'); font-style: italic; font-display: swap; }
+@font-face { font-family: 'Black Chancery'; src: url('/fonts/black-chancery.ttf') format('truetype'); font-display: swap; }
+* { box-sizing: border-box; margin: 0; }
+html { background: var(--bg); }
+body { font-family: var(--font); color: var(--cream); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+
+.top { position: fixed; inset: 0 0 auto 0; z-index: 5; display: flex; align-items: center; gap: 16px; padding: 20px clamp(20px, 4vw, 48px); }
+.brand { font-family: var(--display); font-size: 26px; line-height: 1; margin-right: auto; }
+.top-link { color: inherit; font-weight: 600; text-decoration: none; border-bottom: 2px solid currentColor; }
+/* Availability: the first thing a recruiter needs to know. */
+.status { display: inline-flex; align-items: center; gap: .6em; padding: .45em .9em; border-radius: 999px; font-size: 12px; font-weight: 600; letter-spacing: .04em; color: var(--green); background: rgba(47, 224, 138, .12); border: 1px solid rgba(47, 224, 138, .4); white-space: nowrap; }
+.status::before { content: ""; width: .6em; height: .6em; border-radius: 50%; background: currentColor; box-shadow: 0 0 0 0 currentColor; animation: pulse 2s infinite; }
+@keyframes pulse { 70%, 100% { box-shadow: 0 0 0 .6em transparent; } }
+
+.kicker { font-size: 12px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; opacity: .85; }
+.lead { font-size: clamp(16px, 1.5vw, 20px); line-height: 1.45; max-width: 36ch; }
+.hint { display: inline-block; font-size: 12px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; animation: nudge 1.8s ease-in-out infinite; }
+@keyframes nudge { 50% { translate: 0 6px; } }
+
+/* ── Stage ─────────────────────────────────────────────────────────────── */
+.stage { position: fixed; inset: 0; display: grid; place-items: center; perspective: 1900px; overflow: hidden; background: radial-gradient(60% 55% at 50% 55%, rgba(122, 22, 38, .4), transparent 70%); }
+.hero { position: absolute; z-index: 2; left: 0; right: 0; bottom: clamp(20px, 5vh, 48px); text-align: center; pointer-events: none; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.wrap { transform-style: preserve-3d; will-change: transform; }
+.floaty { position: relative; transform-style: preserve-3d; animation: float 7s ease-in-out infinite; }
+@keyframes float { 0%, 100% { transform: translateY(-9px) rotateZ(-.5deg); } 50% { transform: translateY(9px) rotateZ(.5deg); } }
+.ground { position: absolute; inset: auto 6% -9% 6%; height: 12%; border-radius: 50%; background: rgba(0, 0, 0, .75); filter: blur(30px); transform: translateZ(-40px); }
+
+/* ── Book ──────────────────────────────────────────────────────────────── */
+.book { --pw: min(46vw, 520px, 58vh); position: relative; width: calc(var(--pw) * 2); height: calc(var(--pw) / .75); transform-style: preserve-3d; }
+.book.single { --pw: min(88vw, 50vh); width: var(--pw); height: calc(var(--pw) / .7); }
+.leaf { position: absolute; top: 0; left: 50%; width: 50%; height: 100%; transform-origin: left center; transform-style: preserve-3d; will-change: transform; }
+.single .leaf { left: 0; width: 100%; }
+.page { position: absolute; inset: 0; overflow: hidden; backface-visibility: hidden; -webkit-backface-visibility: hidden; container-type: size; background: var(--paper); color: var(--ink); border-radius: 1px 5px 5px 1px; }
+.page.back { transform: rotateY(180deg); border-radius: 5px 1px 1px 5px; }
+/* The gutter: pages darken towards the spine. */
+.page::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, rgba(60, 30, 10, .26), transparent 9%); }
+.page.back::after { background: linear-gradient(270deg, rgba(60, 30, 10, .26), transparent 9%); }
+.pg-in { position: absolute; inset: 0; padding: 8cqw 8cqw 11cqw; display: flex; flex-direction: column; gap: 3.2cqw; font-size: clamp(10.5px, 2.6cqw, 14.5px); line-height: 1.5; }
+.folio { position: absolute; bottom: 4cqw; left: 0; right: 0; text-align: center; font-size: 10px; font-weight: 600; letter-spacing: .2em; opacity: .4; }
+
+.page h2 { font-family: var(--display); font-weight: 400; font-size: 3.6em; line-height: .95; }
+.page h3 { font-weight: 900; font-size: .78em; letter-spacing: .14em; text-transform: uppercase; color: var(--wine); }
+.page .kicker { font-size: .74em; }
+.note { font-weight: 600; max-width: 26ch; }
+.big-n { position: absolute; top: 2cqw; right: 6cqw; font-family: var(--display); font-size: 40cqw; line-height: 1; color: var(--wine); opacity: .1; pointer-events: none; }
+.pending { padding: .5em .8em; border: 1.5px dashed rgba(43, 22, 20, .4); border-radius: 10px; font-size: .86em; font-weight: 600; opacity: .7; }
+
+.chips { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: .5em; }
+.chips li { font-size: .72em; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; padding: .35em .8em; border-radius: 999px; border: 1.5px solid currentColor; }
+.chips .is-origin { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+.chips .is-soft { border-style: dashed; opacity: .7; }
+
+/* Covers */
+/* Leather boards: a little larger than the paper, like a real binding. */
+.page.is-cover { inset: -8px; border-radius: 7px; background: radial-gradient(120% 90% at 30% 20%, #7a1c2c, var(--leather) 45%, var(--leather-dark)); color: var(--gold); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .08), inset 0 0 40px rgba(0, 0, 0, .45); }
+.board { position: absolute; inset: -8px; border-radius: 7px; background: var(--leather-dark); }
+.board.r { left: 50%; box-shadow: 0 40px 70px -20px #000; }
+.board.l { right: 50%; visibility: hidden; }
+.is-open .board.l { visibility: visible; }
+.is-done .board.r { visibility: hidden; }
+.single .board.r { left: -8px; }
+.single .board.l { display: none; }
+/* Edges of the two piles of pages: thin planes standing between the board and the top leaf. */
+.edge { position: absolute; background: repeating-linear-gradient(90deg, #f1e9d6 0 2px, #d6cab0 2px 3px); }
+.edge.out { top: 0; width: var(--t); height: 100%; transform-origin: left center; }
+.edge.r.out { left: 100%; transform: rotateY(-90deg) scaleX(var(--fr, 1)); }
+.edge.l.out { left: 0; transform: rotateY(-90deg) scaleX(var(--fl, 0)); }
+.edge.top, .edge.bot { width: 50%; height: var(--t); transform-origin: center top; background: repeating-linear-gradient(180deg, #f1e9d6 0 2px, #d6cab0 2px 3px); }
+.edge.top { top: 0; }
+.edge.bot { top: 100%; }
+.edge.r.top, .edge.r.bot { left: 50%; transform: rotateX(90deg) scaleY(var(--fr, 1)); }
+.edge.l.top, .edge.l.bot { left: 0; transform: rotateX(90deg) scaleY(var(--fl, 0)); }
+.single .edge.l, .no-left .edge.l, .no-right .edge.r { display: none; }
+.single .edge.r.top, .single .edge.r.bot { left: 0; width: 100%; }
+/* Brass corners, clasps and emblem */
+.corner { position: absolute; width: 19cqw; aspect-ratio: 1; background: var(--brass); clip-path: polygon(0 0, 100% 0, 100% 24%, 84% 30%, 74% 22%, 60% 34%, 62% 52%, 52% 62%, 34% 60%, 22% 74%, 30% 84%, 24% 100%, 0 100%); filter: drop-shadow(0 2px 2px rgba(0, 0, 0, .5)); }
+.corner.tl { top: 0; left: 0; } .corner.tr { top: 0; right: 0; scale: -1 1; }
+.corner.bl { bottom: 0; left: 0; scale: 1 -1; } .corner.br { bottom: 0; right: 0; scale: -1 -1; }
+.clasp { position: absolute; right: 0; width: 17cqw; height: 5.5cqw; background: var(--brass); clip-path: polygon(0 50%, 14% 0, 100% 0, 100% 100%, 14% 100%); }
+.clasp.a { top: 31%; } .clasp.b { top: 64%; }
+.polaroid { position: absolute; top: 7cqw; right: 8cqw; width: 25cqw; margin: 0; padding: 1.6cqw 1.6cqw 5.2cqw; background: #f7f3ea; rotate: 5deg; box-shadow: 0 .8cqw 1.6cqw rgba(0, 0, 0, .55); }
+.polaroid img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; }
+.emblem { position: absolute; inset: 0; display: grid; place-items: center; pointer-events: none; }
+.emblem svg { width: 46cqw; overflow: visible; translate: 0 -4cqw; filter: drop-shadow(0 3px 3px rgba(0, 0, 0, .55)); }
+.emblem text { font-family: var(--display); }
+.emblem-name { font-size: 34px; }
+.emblem-word { font-size: 27px; }
+/* The hinge groove beside the spine. */
+.is-cover::after { background: linear-gradient(90deg, rgba(0, 0, 0, .35) 0, rgba(255, 255, 255, .1) 3%, rgba(0, 0, 0, .3) 6%, transparent 10%); }
+.is-cover .pg-in { justify-content: flex-end; padding: 22cqw 14cqw; }
+.is-cover .status { background: rgba(1, 3, 10, .5); }
+.cover-title { font-size: 4.6em !important; }
+.cover-sub { font-weight: 600; max-width: 30ch; }
+.is-back .cover-title { font-size: 4.4em !important; }
+.cover-name { position: absolute; left: 0; right: 0; bottom: 21cqw; text-align: center; font-family: var(--font); font-weight: 600; font-size: 3.1cqw; text-transform: uppercase; background: var(--brass); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.is-back .pg-in { justify-content: center; align-items: flex-start; }
+.is-back::after { background: linear-gradient(270deg, rgba(0, 0, 0, .35) 0, rgba(255, 255, 255, .1) 3%, rgba(0, 0, 0, .3) 6%, transparent 10%); }
+.single .is-back::after { background: none; }
+.cta { margin-top: 1em; padding: .9em 2em; border-radius: 999px; background: var(--brass); color: var(--leather-dark); font-weight: 900; letter-spacing: .06em; text-transform: uppercase; text-decoration: none; transition: scale .2s; }
+.cta:hover { scale: 1.05; }
+
+/* First spread: portrait and bio */
+.is-portrait .pg-in { justify-content: center; align-items: center; }
+/* The same instant-photo frame as on the cover, larger and resting on the page. */
+.is-portrait .polaroid { position: static; width: 58cqw; padding: 3cqw 3cqw 0; rotate: -4deg; box-shadow: 0 1.5cqw 3cqw rgba(43, 22, 20, .35); }
+.is-portrait .polaroid img { object-position: 50% 62%; }
+.is-media .polaroid { top: 9cqw; left: 8cqw; right: auto; width: 52cqw; padding: 2cqw 2cqw 5.5cqw; rotate: -3deg; box-shadow: 0 1.5cqw 3cqw rgba(43, 22, 20, .35); }
+.is-media .polaroid img { aspect-ratio: 16 / 10; object-position: left top; }
+.pencil-arrow { position: absolute; top: 45cqw; left: 57cqw; width: 29cqw; pointer-events: none; }
+.pencil-arrow svg { display: block; width: 100%; overflow: visible; }
+.polaroid figcaption { padding: 2.2cqw 0 2.6cqw; text-align: center; font-family: var(--display); font-size: 5cqw; line-height: 1; color: var(--ink); }
+.is-bio .pg-in { justify-content: center; }
+.facts { display: grid; grid-template-columns: auto 1fr; gap: .6em 1.2em; margin-top: 2cqw; padding-top: 3cqw; border-top: 1.5px solid rgba(43, 22, 20, .2); font-size: .9em; }
+.facts dt { font-weight: 600; color: var(--wine); }
+.facts dd { margin: 0; }
+
+/* Section title page and the "how I help" list */
+.is-title .pg-in, .is-media .pg-in { justify-content: flex-end; }
+.is-list .pg-in, .is-case .pg-in { justify-content: center; gap: 5cqw; }
+.help { display: flex; gap: 1em; align-items: flex-start; }
+.help-n { flex: none; width: 2em; height: 2em; display: grid; place-items: center; border-radius: 50%; background: var(--wine); color: #fff; font-weight: 900; }
+.help h3 { font-size: 1.05em; letter-spacing: 0; text-transform: none; color: inherit; margin-bottom: .2em; }
+
+/* Project spread */
+.tour { width: 100%; aspect-ratio: 16 / 9; border: 0; border-radius: 12px; background: var(--ink); object-fit: cover; }
+.tour.is-empty { display: grid; place-content: center; justify-items: center; gap: .35em; background: linear-gradient(140deg, var(--leather-dark), var(--wine)); color: var(--cream); font-weight: 600; font-size: .9em; }
+.tour small { font-weight: 400; opacity: .65; }
+.play { width: 3em; height: 3em; display: grid; place-items: center; padding-left: .2em; border-radius: 50%; background: rgba(255, 255, 255, .16); border: 1.5px solid rgba(255, 255, 255, .5); }
+.step { display: grid; gap: .35em; }
+/* Links are blue and underlined, so they read as links at a glance. */
+.live { align-self: flex-start; color: #1a4fd6; font-weight: 600; text-decoration: underline; text-underline-offset: .2em; }
+.live:hover { color: #0b2fa0; }
+.case-shot { width: 100%; height: auto; border-radius: 6px; box-shadow: 0 1cqw 2.4cqw rgba(43, 22, 20, .3); }
+
+/* Project visuals: the Habitour drawing, the example carousel and the launch countdown */
+.shot { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 12px; }
+/* A strategies page starts at the top of the sheet instead of floating in the middle. */
+.is-case .pg-in:has(.strategy) { justify-content: flex-start; }
+.point strong { color: var(--wine); font-weight: 600; }
+.point-left { display: flex; align-items: flex-start; gap: 2cqw; margin-top: 1cqw; }
+.point-left div { flex: none; width: 34cqw; margin-left: -3cqw; }
+.point-left svg { display: block; width: 100%; overflow: visible; }
+.point-left span { font-family: var(--display); font-size: 5.4cqw; line-height: 1; rotate: -4deg; }
+.links { gap: 3.5cqw; margin-top: 3cqw; justify-items: stretch; }
+.social { display: grid; grid-template-columns: auto 1fr; grid-template-rows: auto auto; column-gap: 4cqw; align-items: center; padding: 3cqw; border-radius: 12px; color: inherit; text-decoration: none; background: rgba(122, 22, 38, .07); transition: background .2s, translate .2s; }
+.social:hover { background: rgba(26, 79, 214, .12); translate: 0 -2px; }
+.social:focus-visible { outline: 2px solid #1a4fd6; outline-offset: 2px; }
+.social-tile { grid-row: 1 / 3; width: 14cqw; height: 14cqw; border-radius: 22%; overflow: hidden; box-shadow: 0 .8cqw 1.8cqw rgba(43, 22, 20, .3); }
+.social-tile svg, .social-tile img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.social b { align-self: end; font-family: var(--display); font-weight: 400; font-size: 2em; line-height: 1; }
+.social span:last-child { align-self: start; color: #1a4fd6; font-weight: 600; text-decoration: underline; text-underline-offset: .2em; }
+.contact { display: grid; gap: 2.5cqw; width: 100%; margin-top: 2cqw; }
+.contact-row { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: .3em 1.5cqw; padding: 2.6cqw 2.6cqw; border-radius: 12px; background: rgba(0, 0, 0, .28); border: 1px solid rgba(210, 176, 106, .4); }
+.contact-row small { grid-column: 1 / -1; font-size: max(8px, 2.1cqw); letter-spacing: .12em; text-transform: uppercase; opacity: .75; }
+/* The one exception to the two typefaces: Anime Ace is too wide to keep an email address on one line. */
+.contact-value { min-width: 0; white-space: nowrap; color: var(--cream); font-family: Arial, Helvetica, sans-serif; font-weight: 700; font-size: clamp(11px, 3.6cqw, 17px); text-decoration: none; }
+.contact-value:hover { text-decoration: underline; }
+.copy { font: inherit; font-size: .74em; font-weight: 600; text-transform: uppercase; padding: .55em .9em; border: 0; border-radius: 999px; background: var(--brass); color: var(--leather-dark); cursor: pointer; white-space: nowrap; transition: scale .2s; }
+.copy:hover { scale: 1.05; }
+.copy.is-done { background: var(--green); }
+.copy:focus-visible, .contact-value:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+/* Anime Ace draws every letter as a capital except a few accented ones (ç, ù), which it leaves small. Asking
+   for capitals outright keeps Catalan and French even; the calligraphic and Arial texts opt back out. */
+.pg-in, .chapter, .lang, .top-link, .hint { text-transform: uppercase; }
+.page h2, .big-n, .emblem text, .polaroid figcaption, .problem strong, .point-left span, .social b, .contact-value { text-transform: none; }
+/* One page at a time leaves less room: the red lines shrink a little and the strategies page drops what each
+   reel repeats, so the longest language (French) still fits. */
+.single .problem { font-size: 1.12em; line-height: 1.25; }
+.single .problem strong { font-size: 1.5em; }
+.single .pg-in:has(.strategy) { gap: 2.4cqw; padding-top: 6cqw; line-height: 1.35; }
+.single .fan-out small { display: none; }
+.single .fan-out { gap: 1.4cqw; }
+.single .point-left div { width: 26cqw; }
+/* Language menu in the header */
+.lang { appearance: none; -webkit-appearance: none; font: inherit; font-size: 12px; color: var(--cream); cursor: pointer; padding: .55em 2.2em .55em 1.1em; border-radius: 999px; border: 1px solid rgba(210, 176, 106, .5); background: rgba(244, 234, 214, .08) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23d2b06a' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right .9em center / .7em; }
+.lang:hover { background-color: rgba(244, 234, 214, .16); }
+.lang:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+.lang option { color: #1b1b1b; background: #fff; font-family: Arial, Helvetica, sans-serif; }
+.fan { margin: 1.5cqw 0 0; display: grid; grid-template-columns: auto 12cqw 1fr; align-items: stretch; }
+.fan-src { align-self: center; display: grid; justify-items: center; gap: 1.2cqw; }
+.fan small { font-size: max(8px, 2cqw); letter-spacing: .04em; text-transform: uppercase; opacity: .75; }
+.reel { display: grid; place-items: center; width: 11cqw; aspect-ratio: 9 / 14; border-radius: 5px; background: linear-gradient(160deg, var(--wine), var(--leather-dark)); box-shadow: 0 .6cqw 1.4cqw rgba(43, 22, 20, .35); }
+.reel .play { width: 4.6cqw; height: 4.6cqw; font-size: 2cqw; color: #fff; }
+.fan-src .reel { width: 15cqw; }
+.fan-wires svg { display: block; width: 100%; height: 100%; }
+.fan-wires path { fill: none; stroke: var(--ink); stroke-width: 1.6; stroke-dasharray: 5 4; vector-effect: non-scaling-stroke; opacity: .6; }
+.fan-out { list-style: none; margin: 0; padding: 0; display: grid; gap: 2cqw; }
+.fan-out li { display: flex; align-items: center; gap: 2.4cqw; }
+.fan-out .reel { flex: none; width: 8.5cqw; }
+.fan-out div { display: grid; gap: .2em; }
+.fan-out b { font-size: max(8px, 2cqw); font-weight: 400; letter-spacing: .08em; text-transform: uppercase; opacity: .7; }
+.fan-out strong { font-weight: 600; color: var(--wine); }
+.clips { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5cqw; }
+.clip { position: relative; padding: 0; border: 0; border-radius: 8px; overflow: hidden; aspect-ratio: 9 / 16; background: var(--leather-dark); cursor: pointer; box-shadow: 0 1cqw 2.4cqw rgba(43, 22, 20, .35); }
+.clip video { display: block; width: 100%; height: 100%; object-fit: cover; }
+.clip .play { position: absolute; inset: 0; margin: auto; width: 8cqw; height: 8cqw; font-size: 3.4cqw; color: #fff; background: rgba(0, 0, 0, .45); transition: opacity .2s; }
+.clip.is-playing .play { opacity: 0; }
+.clip:focus-visible { outline: 2px solid var(--wine); outline-offset: 2px; }
+.flow { margin: 0; width: 100%; aspect-ratio: 16 / 9; display: flex; align-items: center; justify-content: space-between; gap: 3cqw; padding: 5cqw; border-radius: 12px; background: linear-gradient(140deg, var(--leather-dark), var(--wine)); color: var(--cream); }
+.flow small { font-size: max(8px, 2cqw); font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
+.flow-in { position: relative; flex: none; width: 24cqw; height: 100%; display: grid; align-content: end; justify-items: center; }
+.ph { position: absolute; top: 8%; left: 12%; width: 70%; aspect-ratio: 4 / 3; border-radius: 3px; border: 2px solid var(--cream); background: linear-gradient(160deg, #caa46a 55%, #6f4a2c 55%); box-shadow: 0 2px 5px rgba(0, 0, 0, .5); }
+.ph:nth-child(1) { rotate: -9deg; translate: -12% 6%; } .ph:nth-child(2) { rotate: 7deg; translate: 14% 2%; } .ph:nth-child(3) { translate: 0 22%; }
+.flow-arrow { font-size: 6cqw; color: var(--gold); }
+.flow-out { flex: 1; height: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 2.5cqw; }
+.flow-card { display: grid; place-content: center; justify-items: center; gap: 1.6cqw; border-radius: 8px; background: rgba(0, 0, 0, .28); border: 1px solid rgba(210, 176, 106, .45); text-align: center; }
+.flow-card.has-img { overflow: hidden; place-content: end center; background-size: cover; background-position: center; background-color: #fff; }
+.flow-card.has-img small { width: 100%; padding: 1.4cqw 1cqw; background: rgba(54, 9, 15, .85); }
+.problem { font-size: 1.35em; font-weight: 600; line-height: 1.3; color: #b01e2e; }
+.problem strong { letter-spacing: .06em; display: block; margin-bottom: .3em; font-family: var(--display); font-weight: 400; font-size: 1.7em; line-height: 1; }
+.flow-card .play { width: 7cqw; height: 7cqw; font-size: 3cqw; }
+.cube { width: 7cqw; height: 7cqw; background: conic-gradient(from 30deg at 50% 50%, #f3e3ad 0 120deg, #b8924a 0 240deg, #8f6c2f 0); clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%); }
+
+.slides { margin: 0; display: grid; gap: 2cqw; }
+.slides ol { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 1.6cqw; }
+.slides li { min-width: 0; overflow: hidden; aspect-ratio: 4 / 5; display: grid; align-content: space-between; padding: 1.6cqw 1.4cqw; border-radius: 6px; background: var(--leather); color: var(--cream); box-shadow: 0 2px 4px rgba(43, 22, 20, .3); }
+.slides li:first-child { background: var(--ink); } .slides li:last-child { background: var(--gold); color: var(--ink); }
+.slides b { font-family: var(--display); font-weight: 400; font-size: 6cqw; line-height: .9; opacity: .9; }
+.slides strong { font-size: max(7px, 1.75cqw); letter-spacing: .02em; text-transform: uppercase; }
+.slides span { font-size: max(6.5px, 1.55cqw); line-height: 1.2; opacity: .85; }
+.single .slides span { display: none; } /* one page per screen: no room for the second line */
+.single .slides strong { font-family: 'Archivo', system-ui, sans-serif; font-weight: 900; font-size: max(6.5px, 2cqw); letter-spacing: 0; } /* the comic face is too wide here */
+.slides figcaption { font-size: .72em; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; opacity: .6; }
+
+.count { display: grid; gap: 2cqw; padding: 4cqw; border-radius: 12px; background: linear-gradient(140deg, var(--leather-dark), var(--wine)); color: var(--cream); }
+.count-label { font-size: .74em; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); }
+.count-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2cqw; }
+.count-cell { display: grid; justify-items: center; gap: 1.6cqw; padding: 2.6cqw 0 2.2cqw; border-radius: 8px; background: rgba(0, 0, 0, .3); }
+.count-cell b { font-size: 7cqw; line-height: 1; font-variant-numeric: tabular-nums; }
+.count-cell span { font-size: max(7.5px, 1.9cqw); letter-spacing: .12em; text-transform: uppercase; opacity: .75; }
+.count.is-out .count-label { font-size: 1.1em; }
+
+/* Tools and proof */
+.tool-grid { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 2cqw; margin-top: auto; }
+.tool { padding: 2.6cqw 1cqw 2cqw; border-radius: 10px; display: grid; justify-items: center; gap: 1.2cqw; background: rgba(122, 22, 38, .08); }
+.tool svg, .tool-initial { width: 6cqw; height: 6cqw; fill: currentColor; }
+.tool-initial { display: grid; place-items: center; border-radius: 28%; background: var(--ink); color: var(--paper); font-weight: 900; font-size: .8em; }
+.tool-name { font-size: max(8.5px, 2.1cqw); font-weight: 600; text-align: center; line-height: 1.1; }
+.is-tools .pg-in, .is-social .pg-in { justify-content: flex-start; }
+.sub { margin-top: 2cqw; }
+.quote { display: grid; gap: .4em; font-weight: 600; }
+.quote cite { font-style: normal; font-size: .8em; opacity: .7; }
+.links { list-style: none; padding: 0; display: grid; gap: .6em; justify-items: start; }
+
+/* ── Chapter bar ───────────────────────────────────────────────────────── */
+.chapters { position: absolute; z-index: 3; bottom: clamp(12px, 3vh, 26px); left: 50%; translate: -50% 0; display: flex; gap: 6px; padding: 6px; border-radius: 999px; background: rgba(11, 6, 5, .7); border: 1px solid rgba(210, 176, 106, .3); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); max-width: 94vw; }
+.chapter { font: inherit; font-size: clamp(8px, .85vw, 10px); font-weight: 400; letter-spacing: 0; text-transform: uppercase; color: var(--cream); background: none; border: 0; border-radius: 999px; padding: 7px clamp(6px, .8vw, 11px); cursor: pointer; opacity: .6; white-space: nowrap; transition: background .25s, opacity .25s; }
+.chapter:hover { opacity: 1; }
+.chapter.is-on { background: var(--wine); opacity: 1; }
+.chapter:focus-visible, .cta:focus-visible, .live:focus-visible, .top-link:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+
+@media (max-width: 820px) {
+  .top .status { font-size: 10px; }
+  /* No room for names: the bar becomes dots. */
+  .chapter { padding: 0; width: 9px; height: 9px; background: rgba(244, 234, 214, .5); }
+  .chapter.is-on { background: var(--gold); }
+  .chapter span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .chapters { gap: 9px; padding: 9px 12px; }
+}
+@media (max-width: 420px) { .top .status { display: none; } }
+@media (prefers-reduced-motion: reduce) { .floaty, .hint, .status::before { animation: none; } }
